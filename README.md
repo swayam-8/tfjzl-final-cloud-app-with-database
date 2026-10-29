@@ -1,15 +1,8 @@
+# Django Online Course Assessment
+Based on the IBM tfjzl-final-cloud-app-with-database starter (Apache-2.0). AI-assisted implementation prepared for learner review.
 
-**General Notes**
+Adds Question, Choice and Submission models, editable admin inlines, authenticated enrolled exam submissions, exact-match multi-choice scoring, and detailed results. Only the owner can read a submission; out-of-course choices cannot enter a submission.
 
-An `onlinecourse` app has already been provided in this repo upon which you will be adding a new assesement feature.
+Run: `python -m pip install -r requirements.txt`, `python manage.py migrate`, `python manage.py createsuperuser`, `python manage.py runserver`. Open /admin/ to add a course, lesson, questions and choices. Sign in at /onlinecourse/login/, enroll, then submit the course exam. Test with `python manage.py test`.
 
-- If you want to develop the final project on Theia hosted by [IBM Developer Skills Network](https://labs.cognitiveclass.ai/), you will need to create the same project structure on Theia workspace and save it everytime you close the browser
-- Or you could develop the final project locally by setting up your own Python runtime and IDE
-- Hints for the final project are left on source code files
-- You may choose any cloud platform for deployment (default is IBM Cloud Foundry)
-- Depends on your deployment, you may choose any SQL database Django supported such as SQLite3, PostgreSQL, and MySQL (default is SQLite3)
-
-**ER Diagram**
-For your reference, we have prepared the ER diagram design for the new assesement feature.
-
-![Onlinecourse ER Diagram](https://github.com/ibm-developer-skills-network/final-cloud-app-with-database/blob/master/static/media/course_images/onlinecourse_app_er.png)
+No personal credentials or database are committed. Set DJANGO_SECRET_KEY and DJANGO_ALLOWED_HOSTS before remote use. The final course declaration and submission belong to the learner.
