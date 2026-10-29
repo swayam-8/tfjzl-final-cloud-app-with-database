@@ -125,7 +125,7 @@ def submit(request, course_id):
     submission = Submission.objects.create(enrollment=enrollment)
     choices = Choice.objects.filter(id__in=extract_answers(request), question__course=course)
     submission.choices.set(choices)
-    return redirect('onlinecourse:exam_result', course_id=course.id, submission_id=submission.id)
+    return redirect('onlinecourse:show_exam_result', course_id=course.id, submission_id=submission.id)
 
 
 @login_required(login_url='onlinecourse:login')
@@ -137,9 +137,12 @@ def show_exam_result(request, course_id, submission_id):
     choices = submission.choices.all()
     selected_ids = list(choices.values_list('id', flat=True))
     questions = course.question_set.prefetch_related('choice_set')
-    total = sum(question.grade for question in questions)
-    earned = sum(question.grade for question in questions if question.is_get_score(selected_ids))
-    grade = round(100 * earned / total) if total else 0
+    possible_score = sum(question.grade for question in questions)
+    total_score = sum(question.grade for question in questions if question.is_get_score(selected_ids))
+    grade = round(100 * total_score / possible_score) if possible_score else 0
     return render(request, 'onlinecourse/exam_result_bootstrap.html',
                   {'course': course, 'grade': grade, 'choices': choices,
-                   'earned': earned, 'total': total, 'passed': total > 0 and grade >= 80})
+                   'selected_ids': selected_ids, 'possible': possible_score,
+                   'total_score': total_score, 'possible_score': possible_score,
+                   'earned': total_score, 'total': possible_score,
+                   'passed': possible_score > 0 and grade >= 80})
